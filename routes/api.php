@@ -25,4 +25,6 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
 
+    Route::post('create_fa', 'CreateFaController@createFA');
+
 });
