@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -74,10 +75,23 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+        $user = auth()->user();
+        // Check if this is the first time the user is loging in
+        if ($user->last_login == null){
+            $first_time_login = "True";
+        }
+        else {
+            $first_time_login = "False";
+        }
+        $user->update([
+            'last_login' => Carbon::now()->toDateTimeString()
+        ]);
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'user' => $user,
+            'first_time_login' => $first_time_login
         ]);
     }
 }
