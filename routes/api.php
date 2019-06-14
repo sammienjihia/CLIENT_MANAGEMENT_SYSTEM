@@ -26,5 +26,6 @@ Route::group([
     Route::post('me', 'AuthController@me');
 
     Route::post('create_fa', 'CreateFaController@createFA');
+    Route::post('create_lead', 'LeadsController@createLead');
 
 });
